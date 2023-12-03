@@ -1,0 +1,103 @@
+package codigo;
+import java_cup.runtime.Symbol;
+
+parser code
+{:
+    private Symbol s;
+    
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+}
+:};
+
+terminal Op_relacional, Asignacion, Op_logico, Coma, Identificador, Numero, Program, Begin, End, Else, If, Input, Repeat, 
+    T_datoS, T_datoN, T_datoB, Then, While, Do, Until, Var, Op_booleano, Output, Resta, Suma, Multiplicacion, Division, 
+    Igual, P_coma, Parentesis_a, Parentesis_c, Cadena, Op_incremento, ERROR;
+non terminal INICIO, SENTENCIA, DECLARACION, IF, CONTROL_DATOS, VARIABLES, CABEZA, CUERPO, ELSE, FUNCION,
+    WHILE, UNTIL, REPEAT, SENTENCIA_BOOLEANA, TD, OPERACION, VALORES, OPERADORES_A;
+
+start with INICIO;
+
+INICIO ::= 
+    Program Identificador P_coma Var VARIABLES Begin SENTENCIA End
+;
+VARIABLES ::= 
+    VARIABLES DECLARACION P_coma |
+    DECLARACION P_coma
+;
+FUNCION ::= 
+    FUNCION CONTROL_DATOS |
+    CONTROL_DATOS |
+    FUNCION OPERACION |
+    OPERACION
+;
+SENTENCIA ::= 
+    SENTENCIA IF | 
+    IF |
+    SENTENCIA ELSE | 
+    ELSE |
+    SENTENCIA WHILE |
+    WHILE |
+    SENTENCIA UNTIL |
+    UNTIL |
+    SENTENCIA REPEAT |
+    REPEAT |
+    SENTENCIA OPERACION |
+    OPERACION |
+    SENTENCIA CONTROL_DATOS |
+    CONTROL_DATOS
+;
+DECLARACION ::= 
+    CABEZA Asignacion TD
+;
+CABEZA ::= 
+    CABEZA Identificador Coma Identificador |
+    CABEZA Identificador |
+;
+CONTROL_DATOS ::= 
+    Input Parentesis_a Identificador Parentesis_c P_coma |
+    Output Parentesis_a Identificador Parentesis_c P_coma
+;
+OPERACION ::= 
+    Identificador Asignacion Igual Parentesis_a CUERPO Parentesis_c P_coma |
+    Identificador Asignacion Igual CUERPO P_coma
+;
+CUERPO ::= 
+    CUERPO Identificador OPERADORES_A Identificador |
+    CUERPO Identificador OPERADORES_A Numero |
+    CUERPO Numero OPERADORES_A Identificador |
+    CUERPO Numero OPERADORES_A Numero |
+    CUERPO OPERADORES_A |
+;
+OPERADORES_A ::= 
+    Suma |
+    Resta |
+    Multiplicacion |
+    Division
+;
+TD ::= 
+    T_datoB  |
+    T_datoN  |
+    T_datoS
+;
+IF ::= 
+    If Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Then Begin FUNCION End
+;
+ELSE ::= 
+    Else Begin FUNCION End
+;
+SENTENCIA_BOOLEANA ::= 
+    Identificador Op_relacional Numero |
+    Identificador Op_relacional Identificador
+
+;
+WHILE ::= While Parentesis_a SENTENCIA_BOOLEANA Parentesis_c Do Begin FUNCION End
+;
+UNTIL ::= Until Parentesis_a Identificador Igual Identificador Parentesis_c P_coma
+;
+REPEAT ::= Repeat Begin FUNCION End
+;

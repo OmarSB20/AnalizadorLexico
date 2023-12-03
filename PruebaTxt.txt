@@ -1,0 +1,59 @@
+Program #nombre;
+
+var
+
+#uno,#dos : integer ;
+
+#tres : boolean ;
+
+begin
+
+#uno := 39  *  #dos ;
+
+if ( #uno > 10 ) then
+
+begin
+
+input (#dos);
+
+end
+
+else
+
+begin
+
+output ( #dos);
+
+#tres :=  1089 - 100 ;
+
+end
+
+#dos := 1 + 2;
+
+while ( #dos > 5 ) do
+
+begin
+
+#dos := #dos + 1;
+
+output ( #dos) ;
+
+end
+
+#tres := #dos * 1 + 2 + 5;
+
+repeat
+
+begin
+
+#dos := #dos + 2;
+
+output (#dos);
+
+input ( #tres );
+
+end
+
+until(#dos =#true);
+
+end
